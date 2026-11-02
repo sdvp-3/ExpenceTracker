@@ -1,53 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <link rel="stylesheet" href="index.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <link rel="stylesheet" href="index.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Expence Tracker</title>
-</head>
-<body>
-  <main>
-
- 
-  <header>
-  <div class="title"><img class="icon-image" src="pic/expence.png"><p class="titles">Expense Tracker</p></div>
-  <div class="date">Noyabr 2026</div>
-  </header>
-  <div class="sections">
-    <div class="balance">
-      <p> All Balance</p>
-      <h1 class="b">1 200 000</h1>
-     </div>
-    <div class="income">
-       <p>Income</p>
-      <h1 class="i">+2 000 000</h1>
-    </div>
-    <div class="transaction">
-      <p>Transactions</p>
-      <h1 class="t"> -750 000</h1>
-    </div>
-  </div>
-
-  <div class="container">
-    
-    <div class="new-transaction">
-
-
-    </div>
-    <div class="transaction-container">
-
-    </div>
-    <div class="category">
-
-    </div>
+    <title>Expence Tracker</title>
+  </head>
+  <body>
+    <main>
       
+      <header>
+        <div class="title">
+          <img class="icon-image" src="pic/expence.png" />
+          <p class="titles">Expense Tracker</p>
+        </div>
+        <div class="date">Noyabr 2026</div>
+      </header>
 
 
-  </div>
-  
-</main>
-  <script src="index.js"></script>
-</body>
+      <div class="sections">
+        <div class="balance">
+          <p>Balance</p>
+          <h1 class="b">1 200 000</h1>
+        </div>
+        <div class="income">
+          <p>Income</p>
+          <h1 class="i">+2 000 000</h1>
+        </div>
+        <div class="transaction">
+          <p>Expenses</p>
+          <h1 class="t">-750 000</h1>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="new-transaction">
+          <h3>New Transactions</h3>
+          <div class="item">
+            <p>Description</p>
+            <input id="input-item" type="text" placeholder="Example: lunch" />
+          </div>
+
+          <div class="in-balance">
+            <p>Amount</p>
+            <input id="input-num" type="text" placeholder="0" />
+          </div>
+
+          <div class="category-option">
+            <p>Category</p>
+            <select id="categorys" required>
+              <option value="" disabled selected>All categories</option>
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="bills">Bills</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="type-container">
+            <p>Type</p>
+            <div class="typs">
+              <button class="transac"  id="expens">Expense</button>
+              <button class="incom" id="incom">Income</button>
+            </div>
+          </div>
+
+          <div class="add-btn"><button id="btn-add">+Add</button></div>
+        </div>
+
+
+        <div class="transaction-container">
+          <h3>Transactions</h3>
+          <div class="heads-container">
+            <div class="buttons">
+              <button id="all-btn">All</button>
+              <button id="incom-btn">Income</button>
+              <button id="trasac-btn">Expenses</button>
+            </div>
+
+
+            <select id="categorys-1" required>
+              <option value="" disabled selected>All categories</option>
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="bills">Bills</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div id="transaction-list"></div>
+<p id="empty-msg">No transactions yet</p>
+        </div>
+
+
+
+        <div class="category">
+          <h3>Category Summary</h3>
+
+          <p>No expenses yet</p>
+        </div>
+
+
+      </div>
+
+
+    </main>
+    <script src="index.js"></script>
+  </body>
 </html>
