@@ -3,6 +3,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(206, 221, 221);
 
 }
 
@@ -74,7 +75,7 @@ main {
 .income,
 .transaction {
   height: 100px;
-  width: 300px;
+  width: 360px;
   background-color: rgb(247, 245, 245);
   border-radius: 16px;
 
@@ -114,7 +115,7 @@ p {
   align-items: start;
 
   border-left: 10px solid rgb(50, 161, 50);
-  box-shadow: 1px 1px 10px 1px rgb(214, 187, 31);
+  box-shadow: 1px 1px 10px 1px rgb(164, 143, 24);
 }
 
 .i {
@@ -141,4 +142,44 @@ p {
   margin: 0;
   color: red;
   margin-left: 10px;
+}
+.container{
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+
+.new-transaction{
+  padding: 5px;
+  width: 360px;
+  height: 400px;
+  border: none;
+  border-radius:16px;
+  background-color: rgb(248, 246, 244);
+}
+.new-transaction{
+  margin-left: 10px;
+}
+
+.transaction-container{
+  width: 400px;
+   padding: 5px;
+  height: 400px;
+  border: none;
+  
+  border-radius:16px;
+  background-color: rgb(248, 246, 244);
+}
+
+
+.category{
+  margin-right: 10px;
+  width: 250px;
+    padding: 5px;
+  height: 400px;
+  border: none;
+  border-radius:16px;
+  background-color: rgb(248, 246, 244);
 }
