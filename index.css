@@ -7,7 +7,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(247, 247, 247);
+  background-color: rgb(49, 20, 76);
 
 
 }
@@ -65,6 +65,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
+ 
 
 
 }
@@ -75,6 +76,7 @@ main {
   gap: 30px;
   margin-top: 20px;
   padding: 0 10px;
+   
 }
 
 
@@ -85,6 +87,7 @@ main {
   width: auto;
   background-color: rgb(247, 245, 245);
   border-radius: 16px;
+ 
 
 
 }
@@ -160,13 +163,26 @@ p {
 
 
 .new-transaction,
-.transaction-container,
+
 .category {
   padding: 15px;
-  min-height: 410px;
+  height: 520px;
   border: none;
   border-radius: 16px;
-  background-color: rgb(248, 246, 244);
+  background-color: rgba(246, 247, 250, 0.934);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.182);
+}
+.transaction-container{
+  display: flex;
+  flex-direction: column;
+  min-height: 410px;
+  min-width: 0;
+  padding: 15px;
+  height: 520px;
+  overflow: hidden;
+  border: none;
+  border-radius: 16px;
+  background-color: rgba(246, 247, 250, 0.934);
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.182);
 }
 
@@ -317,20 +333,9 @@ input {
   outline: none;
 }
 
-.transaction-container>p {
-  position: absolute;
-  bottom: 16px;
-  left: 46%;
-  transform: translate(-50%);
-  white-space: nowrap;
-  color: rgba(157, 140, 140, 0.788);
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: normal;
 
-}
 
 .transaction-container {
-
   position: relative;
 }
 
@@ -363,6 +368,9 @@ input {
 .cards {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   margin-top: 20px;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -438,3 +446,17 @@ input {
   margin: 0;
   color: red;
 }
+
+.cards>p{
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%);
+ white-space: nowrap;
+  color: rgba(157, 140, 140, 0.788);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+.income-text { color: green; }
+.expense-text { color: red; }

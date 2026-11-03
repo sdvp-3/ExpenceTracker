@@ -20,11 +20,22 @@ const allBtn = document.getElementById("all-btn");
 const inBtn = document.getElementById("incom-btn");
 const trasacBtn = document.getElementById("trasac-btn");
 
+// ballances;
+ const balanceEl =document.getElementById("h1-b");
+ const incomeEl = document.getElementById("h1-i");
+ const expenseEl = document.getElementById("h1-t");
+
+
+
+expensBtn.addEventListener("click", () => (selectedType = "expense"));
+incomBtn.addEventListener("click", () => (selectedType = "income"));
+
 addBtn.addEventListener("click", function () {
   const transaction = {
     id: Date.now(),
     description: inputItem.value.trim(),
-    amount: inputAmount.value.trim(),
+    amount:Number(inputAmount.value.trim()),
+    type: selectedType,
     select: selectCategory.value.trim(),
     date: dateInput.value.trim(),
   };
@@ -33,7 +44,9 @@ addBtn.addEventListener("click", function () {
   console.log(transaction);
 
   clearInput();
-  render(transactions, listEl);
+  render();
+   updateTotals()
+ 
 });
 
 function clearInput() {
@@ -43,12 +56,14 @@ function clearInput() {
   dateInput.value = "";
 }
 
-function render(expenses, element) {
-  const expenseItems = expenses
-    .map(
-      (expense, i) => `
+function render() {
+  listEl.innerHTML = transactions
+
+    .map((expense) => {
+      const isIncome = expense.type === "income";
+      return `
    <div class ="expense-card" data-id = ${expense.id}>
-<div class="images"> <img class = "imgs" src = "pic/down.png"></div>
+<div class="images  ${isIncome ? "up" : "down"}"> ${isIncome ? "↑" : "↓"}</div>
   
 
    <div class="descript"> 
@@ -63,14 +78,25 @@ function render(expenses, element) {
 
    </div>
 
-<div class="amount"><p class="amaounts">${expense.amount}</p></div>
+<div class="amount"><p class="amaounts ${isIncome ? "income-text" : "expense-text"}">${expense.type === "income" ? "+" : "-"}${expense.amount}</p></div>
 
   
-   </div>
-   
-   `,
-    )
+   </div>`;
+    })
     .join("");
+}
+function updateTotals() {
+  const income = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + (t.amount), 0);
 
-  element.innerHTML = expenseItems;
+  const expense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + (t.amount), 0);
+
+  balanceEl.textContent = (income - expense).toLocaleString("uz-UZ");
+  incomeEl.textContent = "+" + income.toLocaleString("uz-UZ");
+  expenseEl.textContent = "-" + expense.toLocaleString("uz-UZ");
+
+  render()
 }
