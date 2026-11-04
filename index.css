@@ -7,7 +7,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(49, 20, 76);
+  background-color: rgb(241, 241, 241);
 
 
 }
@@ -365,7 +365,9 @@ input {
 
 }
 
-.cards {
+.cards,
+.cards2,
+.cards3 {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -460,3 +462,11 @@ input {
 
 .income-text { color: green; }
 .expense-text { color: red; }
+
+.buttons button.active {
+  background-color: #3333f0;
+  color: white;
+}
+
+.typs button.active { outline: 3px solid #333; }
+.typs button.active { background-color: #3333f0; color: white; }

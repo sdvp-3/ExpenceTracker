@@ -1,7 +1,16 @@
 const transactions = [];
+let currentFilter = "all";
 
 const listEl = document.getElementById("transaction-list");
 const emptyMsg = document.getElementById("empty-msg");
+
+const message = {all:"No Transactions yet", income:"No Incomes yet", expense:"No Expenses yet"};
+
+emptyMsg.textContent = message[currentFilter]
+
+
+
+
 let selectedType = "expense";
 
 // inputs;
@@ -15,10 +24,13 @@ const expensBtn = document.getElementById("expens");
 const incomBtn = document.getElementById("incom");
 const addBtn = document.getElementById("btn-add");
 
+const typeBtn = [expensBtn,incomBtn,addBtn]
 // transactions buttons;
 const allBtn = document.getElementById("all-btn");
 const inBtn = document.getElementById("incom-btn");
 const trasacBtn = document.getElementById("trasac-btn");
+
+const filterButton = [allBtn,inBtn]
 
 // ballances;
  const balanceEl =document.getElementById("h1-b");
@@ -29,6 +41,60 @@ const trasacBtn = document.getElementById("trasac-btn");
 
 expensBtn.addEventListener("click", () => (selectedType = "expense"));
 incomBtn.addEventListener("click", () => (selectedType = "income"));
+
+
+allBtn.addEventListener("click", () =>{currentFilter = "all"; renderLists();});
+inBtn.addEventListener("click", () =>{currentFilter = "income"; renderLists();});
+trasacBtn.addEventListener("click", () =>{currentFilter = "expense"; renderLists();});
+
+
+
+function setActive(btn){
+  filterButton.forEach((b) => b.classList.remove("active"));
+  btn.classList.add("active")
+}
+
+allBtn.addEventListener("click", () =>{
+  currentFilter = "all";
+  setActive(allBtn);
+  renderLists()
+});
+
+inBtn.addEventListener("click", () =>{
+  currentFilter = "income";
+  setActive(inBtn);
+  renderLists();
+})
+
+trasacBtn.addEventListener("click", () =>{
+  currentFilter = "expense";
+  setActive(trasacBtn);
+  renderLists();
+})
+
+setActive(allBtn);
+
+function active(btn2){
+  typeBtn.forEach((b) => b.classList.remove("active"));
+  btn2.classList.add("active")
+}
+
+expensBtn.addEventListener("click", () =>{
+  selectedType = "expense";
+  active(expensBtn);
+  
+});
+
+incomBtn.addEventListener("click", () =>{
+  
+      selectedType = "income";
+  active(incomBtn);
+ 
+})
+active(expensBtn);
+
+
+
 
 addBtn.addEventListener("click", function () {
   const transaction = {
@@ -48,6 +114,40 @@ addBtn.addEventListener("click", function () {
    updateTotals()
  
 });
+
+
+
+
+function renderLists() {
+  const visible =
+    currentFilter === "all"
+      ? transactions
+      : transactions.filter((t) => t.type === currentFilter);
+
+  emptyMsg.hidden = visible.length > 0;
+
+  listEl.innerHTML = visible
+    .map((expense) => {
+      const isIncome = expense.type === "income";
+
+      return `
+        <div class="expense-card" data-id="${expense.id}">
+          <div class="images ${isIncome ? "up" : "down"}">${isIncome ? "↑" : "↓"}</div>
+          <div class="descript">
+            <h3>${expense.description}</h3>
+            <div class="categor">
+              <p>${expense.select} · ${expense.date}</p>
+            </div>
+          </div>
+          <div class="amount">
+            <p class="amaounts ${isIncome ? "income-text" : "expense-text"}">
+              ${isIncome ? "+" : "-"}${Number(expense.amount).toLocaleString("en-US")}
+            </p>
+          </div>
+        </div>`;
+    })
+    .join("");
+}
 
 function clearInput() {
   inputItem.value = "";
@@ -78,7 +178,7 @@ function render() {
 
    </div>
 
-<div class="amount"><p class="amaounts ${isIncome ? "income-text" : "expense-text"}">${expense.type === "income" ? "+" : "-"}${expense.amount}</p></div>
+<div class="amount"><p class="amaounts ${isIncome ? "income-text" : "expense-text"}">${expense.type === "income" ? "+" : "-"}${Number(expense.amount)}</p></div>
 
   
    </div>`;
