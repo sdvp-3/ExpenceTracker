@@ -1,5 +1,5 @@
 const transactions = [];
-let currentFilter = "all";
+let currentFilter = "";
 
 const listEl = document.getElementById("transaction-list");
 const emptyMsg = document.getElementById("empty-msg");
@@ -11,7 +11,7 @@ emptyMsg.textContent = message[currentFilter]
 
 
 
-let selectedType = "expense";
+let selectedType = "";
 
 // inputs;
 const inputItem = document.getElementById("input-item");
@@ -30,7 +30,7 @@ const allBtn = document.getElementById("all-btn");
 const inBtn = document.getElementById("incom-btn");
 const trasacBtn = document.getElementById("trasac-btn");
 
-const filterButton = [allBtn,inBtn]
+const filterButton = [allBtn,inBtn, trasacBtn ]
 
 // ballances;
  const balanceEl =document.getElementById("h1-b");
@@ -60,19 +60,21 @@ allBtn.addEventListener("click", () =>{
   renderLists()
 });
 
-inBtn.addEventListener("click", () =>{
-  currentFilter = "income";
-  setActive(inBtn);
-  renderLists();
-})
-
 trasacBtn.addEventListener("click", () =>{
   currentFilter = "expense";
   setActive(trasacBtn);
   renderLists();
-})
+});
 
-setActive(allBtn);
+inBtn.addEventListener("click", () =>{
+  currentFilter = "income";
+  setActive(inBtn);
+  renderLists();
+});
+
+
+
+
 
 function active(btn2){
   typeBtn.forEach((b) => b.classList.remove("active"));
@@ -91,7 +93,7 @@ incomBtn.addEventListener("click", () =>{
   active(incomBtn);
  
 })
-active(expensBtn);
+
 
 
 
@@ -105,6 +107,12 @@ addBtn.addEventListener("click", function () {
     select: selectCategory.value.trim(),
     date: dateInput.value.trim(),
   };
+
+  if(inputItem.value.trim()==="" || inputAmount.value.trim()==="" || 
+selectCategory.value.trim()==="" || dateInput.value.trim()==="" ){
+   alert("Please fill all the fileds")
+   return
+}
 
   transactions.push(transaction);
   console.log(transaction);
@@ -132,7 +140,7 @@ function renderLists() {
 
       return `
         <div class="expense-card" data-id="${expense.id}">
-          <div class="images ${isIncome ? "up" : "down"}">${isIncome ? "↑" : "↓"}</div>
+          <div class="images ${isIncome ? "up" : "down"}">${isIncome ? "↑↑  " : "↓↓"}</div>
           <div class="descript">
             <h3>${expense.description}</h3>
             <div class="categor">
@@ -155,6 +163,10 @@ function clearInput() {
   selectCategory.value = "";
   dateInput.value = "";
 }
+
+
+
+
 
 function render() {
   listEl.innerHTML = transactions
