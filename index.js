@@ -67,6 +67,18 @@ trasacBtn.addEventListener("click", () => {
   renderLists();
 });
 
+
+function transactionsToStorage(){
+  localStorage.setItem("transactions",JSON.stringify(transactions))
+}
+
+function transactionsData(){
+  const transactionData = localStorage.getItem("transactions");
+
+  if(transactionData){
+    transactions.push(...JSON.parse(transactionData));
+  }
+}
 //<<-->>> setActive funcsiyasi hisoblanadi bu orqali biz classlar orqali tugmalarga rang berishimiz mumkin bu bizga bir tugma ishga tushganda boshqa biri ishlashdan to'xtaydi!!!
 const filterButton = [allBtn, inBtn, trasacBtn];
 function setActive(btn) {
@@ -118,12 +130,33 @@ addBtn.addEventListener("click", function () {
   }
 
   transactions.push(transaction);
+  
   console.log(transaction);
-
+transactionsToStorage();
   clearInput();
   render();
+ 
   updateTotals();
   renderCategories();
+});
+
+
+listEl.addEventListener("click", function (event) {
+  const deleteButton = event.target.closest(".btn-delete");
+  if (!deleteButton) return;
+
+  const card = deleteButton.closest(".expense-card");
+  const id = Number(card.dataset.id);
+
+  const index = transactions.findIndex((transaction) => transaction.id === id);
+  if (index === -1) return;
+
+  transactions.splice(index, 1);
+  transactionsToStorage();
+
+  updateTotals();
+  renderCategories();
+  renderLists();
 });
 
 filterCategorySelect.addEventListener("change", function () {
@@ -158,8 +191,10 @@ function renderLists() {
           <div class="amount">
             <p class="amaounts ${isIncome ? "income-text" : "expense-text"}">
               ${isIncome ? "+" : "-"}${Number(expense.amount).toLocaleString("en-US")}
+              
             </p>
           </div>
+       <button class="btn-delete" type = "button" aria-label="Delete transactions"><img class="btn-img" src="pic/delete.png" alt=""></button>
         </div>`;
     })
     .join("");
@@ -191,11 +226,11 @@ function render() {
 <p>.</p>
 <p>${expense.date}</p>
 </div>
-
+  
    </div>
 
 <div class="amount"><p class="amaounts ${isIncome ? "income-text" : "expense-text"}">${expense.type === "income" ? "+" : "-"}${Number(expense.amount)}</p></div>
-
+ <button class="btn-delete" type = "button" aria-label="Delete transactions"><img class="btn-img" src="pic/delete.png" alt=""></button>
   
    </div>`;
     })
@@ -273,3 +308,6 @@ function renderCategories() {
 
   categoryTop.textContent = `Most spent: ${topCategories.join(", ")} - ${precent}% each`;
 }
+  transactionsData();
+  updateTotals();
+  renderCategories();
