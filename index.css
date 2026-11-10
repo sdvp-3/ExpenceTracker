@@ -474,3 +474,41 @@ input {
     font-weight: bold;
 
 }
+
+.category-row {
+  margin-bottom: 20px;
+}
+
+.category-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.category-bar {
+  height: 8px;
+  border-radius: 8px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.category-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: #ef4444;
+}
+
+#category-top:not(:empty) {
+  padding: 14px;
+  border-radius: 10px;
+  background: #d1d9f3;
+  color: #4f46e5;
+  font-weight: bold;
+}
+
+.icon-img{
+  width: 20px;
+  height: 25px;
+}
