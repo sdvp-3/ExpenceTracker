@@ -65,7 +65,7 @@ main {
   height: 100vh;
   display: flex;
   flex-direction: column;
- 
+
 
 
 }
@@ -76,7 +76,7 @@ main {
   gap: 30px;
   margin-top: 20px;
   padding: 0 10px;
-   
+
 }
 
 
@@ -87,7 +87,7 @@ main {
   width: auto;
   background-color: rgb(247, 245, 245);
   border-radius: 16px;
- 
+
 
 
 }
@@ -172,7 +172,8 @@ p {
   background-color: rgba(246, 247, 250, 0.934);
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.182);
 }
-.transaction-container{
+
+.transaction-container {
   display: flex;
   flex-direction: column;
   min-height: 410px;
@@ -351,11 +352,12 @@ input {
 }
 
 .expense-card {
-   display: flex;
+  display: flex;
   align-items: center;
   min-height: 64px;
   height: auto;
   padding: 8px 0;
+  border-bottom: 1px solid rgba(142, 116, 116, 0.301);
 
 }
 
@@ -426,7 +428,7 @@ input {
   align-items: center;
 
   border-radius: 50%;
-  
+
 
 
 
@@ -435,7 +437,7 @@ input {
 
 
 .amount {
-    width: auto;
+  width: auto;
   flex: 0 0 auto;
 
 }
@@ -446,19 +448,24 @@ input {
   color: red;
 }
 
-.cards>p{
+.cards>p {
   position: absolute;
   bottom: 50%;
   left: 50%;
   transform: translate(-50%);
- white-space: nowrap;
+  white-space: nowrap;
   color: rgba(157, 140, 140, 0.788);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: normal;
 }
 
-.income-text { color: green; }
-.expense-text { color: red; }
+.income-text {
+  color: green;
+}
+
+.expense-text {
+  color: red;
+}
 
 .buttons button.active {
   background-color: #3333f0;
@@ -467,11 +474,16 @@ input {
 
 
 
-.transac.active { box-shadow: inset 0px 2px 40px 5px red; color: white; font-weight: bold; }
+.transac.active {
+  box-shadow: inset 0px 2px 40px 5px red;
+  color: white;
+  font-weight: bold;
+}
 
-.incom.active{
-    box-shadow: inset 0px 2px 40px 5px rgb(0, 4, 255); color: white; 
-    font-weight: bold;
+.incom.active {
+  box-shadow: inset 0px 2px 40px 5px rgb(0, 4, 255);
+  color: white;
+  font-weight: bold;
 
 }
 
@@ -508,7 +520,7 @@ input {
   font-weight: bold;
 }
 
-.icon-img{
+.icon-img {
   width: 20px;
   height: 25px;
 }

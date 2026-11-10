@@ -1,5 +1,7 @@
 const transactions = [];
-let currentFilter = "";
+let currentFilter = "all";
+let currentCategory = "all";
+let selectedType = "";
 
 const listEl = document.getElementById("transaction-list");
 const categoryEmpty = document.getElementById("category-empty");
@@ -15,7 +17,7 @@ const message = {
 
 categoryEmpty.textContent = message[currentFilter];
 
-let selectedType = "";
+//<<<---->>> render qilish va tugmalarni faol qiladigan const o'zgaruvchi nomlar <<<<<----\\\
 
 // inputs;
 const inputItem = document.getElementById("input-item");
@@ -33,17 +35,25 @@ const typeBtn = [expensBtn, incomBtn, addBtn];
 const allBtn = document.getElementById("all-btn");
 const inBtn = document.getElementById("incom-btn");
 const trasacBtn = document.getElementById("trasac-btn");
+const filterCategorySelect = document.getElementById("filter-category");
 
-const filterButton = [allBtn, inBtn, trasacBtn];
+const filterMap = [
+  { btn: allBtn, filter: "all" },
+  { btn: trasacBtn, filter: "expense" },
+  { btn: inBtn, filter: "income" },
+];
 
 // ballances;
 const balanceEl = document.getElementById("h1-b");
 const incomeEl = document.getElementById("h1-i");
 const expenseEl = document.getElementById("h1-t");
 
+//<<<----->> tugmalarni ishga soladi bu asosan objectdagi type orqalitopib qaysi tugma tanlangab bo'lsa shuni olib shu ishga tushadi!!!<<<---->>\\
+
 expensBtn.addEventListener("click", () => (selectedType = "expense"));
 incomBtn.addEventListener("click", () => (selectedType = "income"));
 
+//<<<--->>>> bu addEventlistener bo'lib asosan tugmalarni tanlanganda ishlaydi masalan 3ta tugma mavzud shulardan bittasini olib yani bittasi ishga tushsa qolganlari ishga tushmaydi shu sababdab mana shu funksiya ishga tushadi <<--->>>\\
 allBtn.addEventListener("click", () => {
   currentFilter = "all";
   renderLists();
@@ -57,27 +67,19 @@ trasacBtn.addEventListener("click", () => {
   renderLists();
 });
 
+//<<-->>> setActive funcsiyasi hisoblanadi bu orqali biz classlar orqali tugmalarga rang berishimiz mumkin bu bizga bir tugma ishga tushganda boshqa biri ishlashdan to'xtaydi!!!
+const filterButton = [allBtn, inBtn, trasacBtn];
 function setActive(btn) {
   filterButton.forEach((b) => b.classList.remove("active"));
   btn.classList.add("active");
 }
 
-allBtn.addEventListener("click", () => {
-  currentFilter = "all";
-  setActive(allBtn);
-  renderLists();
-});
-
-trasacBtn.addEventListener("click", () => {
-  currentFilter = "expense";
-  setActive(trasacBtn);
-  renderLists();
-});
-
-inBtn.addEventListener("click", () => {
-  currentFilter = "income";
-  setActive(inBtn);
-  renderLists();
+filterMap.forEach(({ btn, filter }) => {
+  btn.addEventListener("click", () => {
+    currentFilter = filter;
+    setActive(btn);
+    renderLists();
+  });
 });
 
 function active(btn2) {
@@ -121,17 +123,24 @@ addBtn.addEventListener("click", function () {
   clearInput();
   render();
   updateTotals();
-   renderCategories()
- 
+  renderCategories();
+});
+
+filterCategorySelect.addEventListener("change", function () {
+  currentCategory = filterCategorySelect.value;
+  renderLists();
 });
 
 function renderLists() {
-  const visible =
-    currentFilter === "all"
-      ? transactions
-      : transactions.filter((t) => t.type === currentFilter);
+  const visible = transactions.filter((t) => {
+    const typeMatch = currentFilter === "all" || t.type === currentFilter;
+    const categoryMatch =
+      currentCategory === "all" ||
+      currentCategory === "" ||
+      t.select === currentCategory;
 
-  categoryEmpty.hidden = visible.length > 0;
+    return typeMatch && categoryMatch;
+  });
 
   listEl.innerHTML = visible
     .map((expense) => {
@@ -139,7 +148,7 @@ function renderLists() {
 
       return `
         <div class="expense-card" data-id="${expense.id}">
-          <div class="images ${isIncome ? "up" : "down"}">${isIncome ? "↑↑  " : "↓↓"}</div>
+          <img src="${isIncome ? "pic/up.png" : "pic/red-down.png"}" alt="${isIncome ? "Income" : "Expense"}" class="icon-img">
           <div class="descript">
             <h3>${expense.description}</h3>
             <div class="categor">
@@ -206,23 +215,17 @@ function updateTotals() {
   expenseEl.textContent = "-" + expense.toLocaleString("uz-UZ");
 
   render();
-  
 }
 
+function renderCategories() {
+  const expenses = transactions.filter((t) => t.type === "expense");
 
-function renderCategories(){
-
-  const expenses = transactions.filter((t) =>t.type ==="expense" );
-
-  const total =expenses.reduce((result, item) =>{
+  const total = expenses.reduce((result, item) => {
     const category = item.category || item.select || "other";
-     const amount =Number(item.amount)
-    result[category] =(result[category] || 0) + amount;
-    return result
-  
-  },{});
-
-
+    const amount = Number(item.amount);
+    result[category] = (result[category] || 0) + amount;
+    return result;
+  }, {});
 
   const entries = Object.entries(total);
 
@@ -230,48 +233,43 @@ function renderCategories(){
   categoryTop.replaceChildren();
   categoryEmpty.hidden = entries.length > 0;
 
-    if (entries.length === 0) return;
+  if (entries.length === 0) return;
 
-    const maxAmount = Math.max(...entries.map(([, amount]) => amount));
-    const totalExpense = entries.reduce((sum, [, amount])=> sum + amount, 0);
+  const maxAmount = Math.max(...entries.map(([, amount]) => amount));
+  const totalExpense = entries.reduce((sum, [, amount]) => sum + amount, 0);
 
-    entries.forEach(([category, amount])=> {
+  entries.forEach(([category, amount]) => {
+    const row = document.createElement("div");
+    row.className = "category-row";
 
-      const row = document.createElement("div");
-      row.className = "category-row";
+    const label = document.createElement("div");
+    label.className = "category-label";
 
-      const label = document.createElement("div");
-      label.className = "category-label";
+    const name = document.createElement("span");
+    name.textContent = category;
 
-      const name = document.createElement("span");
-      name.textContent = category;
+    const value = document.createElement("span");
+    value.textContent = amount.toLocaleString("en-US");
 
-      const value = document.createElement("span");
-      value.textContent= amount.toLocaleString("en-US");
+    const bar = document.createElement("div");
+    bar.className = "category-bar";
 
-      const bar = document.createElement("div");
-      bar.className = "category-bar";
+    const fill = document.createElement("div");
+    fill.className = "category-fill";
+    fill.style.width = `${maxAmount > 0 ? (amount / maxAmount) * 100 : 0}%`;
 
-      const fill = document.createElement("div");
-      fill.className ="category-fill";
-      fill.style.width= `${maxAmount>0 ? (amount/maxAmount)*100 : 0}%`;
-    
-      label.append(name,value);
-      bar.append(fill);
-      row.append(label,bar);
-      categoryList.append(row)
-  }) ;
+    label.append(name, value);
+    bar.append(fill);
+    row.append(label, bar);
+    categoryList.append(row);
+  });
 
+  const topCategories = entries
+    .filter(([, amount]) => amount === maxAmount)
+    .map(([category]) => category);
 
-  const topCategories = entries.filter(([, amount])=> amount === maxAmount)
-  .map(([category])=>category);
+  const precent =
+    totalExpense > 0 ? Math.round((maxAmount / totalExpense) * 100) : 0;
 
-
-  const precent = totalExpense>0
-  ? Math.round((maxAmount / totalExpense)*100)
-  :0;
-
-  categoryTop.textContent =
-  `Most spent: ${topCategories.join(", ")} - ${precent}% each`
-
+  categoryTop.textContent = `Most spent: ${topCategories.join(", ")} - ${precent}% each`;
 }
